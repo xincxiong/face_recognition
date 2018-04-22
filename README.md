@@ -12,9 +12,7 @@ face recognition and face verification system from scratch.
 ### the model inspired by paper [ going deeper with convolutions]
 
 ###  Use a pretrained model to map the images to  feature vectors using triplet loss firstly.
-'''
-def triplet_loss(y_true, y_pred, alpha = 0.4):
-    """
+"""
     Implementation of the triplet loss function
     Arguments:
     y_true -- true labels, required when you define a loss in Keras, you don't need it in this function.
@@ -24,7 +22,12 @@ def triplet_loss(y_true, y_pred, alpha = 0.4):
             negative -- the encodings for the negative data (different from anchor)
     Returns:
     loss -- real number, value of the loss
-    """
+"""
+
+
+'''
+def triplet_loss(y_true, y_pred, alpha = 0.4):
+    
 
     anchor = y_pred[:,0:3]
     positive = y_pred[:,3:6]
@@ -41,11 +44,13 @@ def triplet_loss(y_true, y_pred, alpha = 0.4):
     loss = K.maximum(basic_loss,0.0)
  
     return loss
-  
-def create_base_network(in_dims, out_dims):
-    """
+'''
+"""
     Base network to be shared.
-    """
+""" 
+'''
+def create_base_network(in_dims, out_dims):
+    
     model = Sequential()
     model.add(BatchNormalization(input_shape=in_dims))
     model.add(LSTM(512, return_sequences=True, dropout=0.2, recurrent_dropout=0.2, implementation=2))
@@ -61,10 +66,12 @@ def create_base_network(in_dims, out_dims):
   
 in_dims = (N_MINS, n_feat)
 out_dims = N_FACTORS
+'''
 
 # Network definition
-with tf.device(tf_device):
 
+'''
+with tf.device(tf_device):
     # Create the 3 inputs
     anchor_in = Input(shape=in_dims)
     pos_in = Input(shape=in_dims)
@@ -83,8 +90,10 @@ with tf.device(tf_device):
                   loss=triplet_loss)
 
 # Training the model
+'''
 model.fit(train_data, y_dummie, batch_size=256, epochs=10)
 
 '''
+
 
 
